@@ -4,7 +4,8 @@
   "description": "Task B for CS3219 OTOT Assignment",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx nodemon index.js",
+    "test": "mocha"
   },
   "author": "Jiang Jiahui",
   "license": "ISC",
@@ -13,5 +14,10 @@
     "express": "^4.17.1",
     "mongoose": "^5.10.11",
     "nodemon": "^2.0.6"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.2.0"
   }
 }

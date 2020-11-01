@@ -31,3 +31,5 @@ app.post('/tempPost', (req, res) => res.send(req.body));
 app.listen(port, function () {
      console.log("Running backend on port " + port);
 });
+
+module.exports = app; // for testing
