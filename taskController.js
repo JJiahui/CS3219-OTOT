@@ -21,7 +21,6 @@ exports.new = function (req, res) {
     var task = new Task();
     task.title = req.body.title ? req.body.title : task.title;
     task.description = req.body.description;
-    task.due_date = req.body.due_date;
     // save the task and check for errors
     task.save(function (err) {
         if (err) {
@@ -48,11 +47,12 @@ exports.view = function (req, res) {
     });
 };
 // Handle update task info
-exports.update = function (req, res) {Task.findById(req.params.task_id, function (err, task) {
+exports.update = function (req, res) {
+    Task.findById(req.params.task_id, function (err, task) {
         if (err) { res.send(err); return; }
         task.title = req.body.title ? req.body.title : task.title;
         task.description = req.body.description ? req.body.description : task.description;
-        task.is_done = req.body.is_done ? req.body.is_done : task.is_done;
+        task.is_done = req.body.is_done;
         // save the task and check for errors
         task.save(function (err) {
             if (err) {
