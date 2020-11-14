@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --exit --timeout 5000",
+    "test:local": "mocha --exit --timeout 5000 test/task1.js",
+    "test:local-server": "mocha --exit --timeout 5000 test/task2.js",
+    "test:deployed": "mocha --exit --timeout 5000 test_deployed/task3.js",
     "serve": "netlify-lambda serve ./src",
     "build": "netlify-lambda build ./src"
   },
