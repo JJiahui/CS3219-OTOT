@@ -9,7 +9,7 @@
     "test:local-server": "mocha --exit --timeout 5000 test/task2.js",
     "test:deployed": "mocha --exit --timeout 5000 test_deployed/task3.js",
     "serve": "netlify-lambda serve ./src",
-    "build": "netlify-lambda build ./src && cd frontend/task && npm run build"
+    "build": "netlify-lambda build ./src && cd frontend/task && npm install && npm run build"
   },
   "author": "Jiang Jiahui",
   "license": "ISC",
