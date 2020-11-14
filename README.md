@@ -1,12 +1,14 @@
 # CS3210 OTOT Assignment Task B
 A simple todo list app, access at https://upbeat-franklin-284d05.netlify.app/    
+
 <img src="./images/deployed_frontend.jpg" alt="drawing" width="600"/>
 
 
 > Frontend: Vue  
 Backend: Netlify functions (serverless) & Faunadb  
 
->Note: local & deployed servers will connect to the same database at Faunadb
+>Note: local & deployed servers will connect to the same database at Faunadb  
+Create a `.env` file in the root folder containing your Faunadb key e.g. FAUNADB_SERVER_SECRET={YOUR_KEY_HERE}
 
 ## Running the backend API locally
 ### Setup
@@ -53,26 +55,25 @@ npm run test:local-server
 ```
 npm run test:deployed
 ```
-Automated testing using Travis CI:  
-(Note that only (1) and (2) mentioned above are run by travis)  
-TODO screenshot
+Note: only (1) & (2) are run by Travis CI.
 
 
-## Frontend (local only)
-Prerequisites:  Vue CLI
-Run: 
+## Running the frontend locally
+Prerequisites:  Vue CLI  
+Run frontend on port 8080:  
 ```
-cd frontend/task/ 
+cd frontend/task  
 npm install
 npm run serve
 ```
+Note that the local frontend server makes API calls to the local backend server.
 
 
 
-## References
-https://epsagon.com/development/how-to-test-serverless-apps/
-https://nordschool.com/build-a-serverless-database-using-faunadb-and-netlify-functions/
-https://github.com/netlify/netlify-faunadb-example
-https://www.digitalocean.com/community/tutorials/test-a-node-restful-api-with-mocha-and-chai#mocha-testing-environment
+### References
+https://epsagon.com/development/how-to-test-serverless-apps/  
+https://nordschool.com/build-a-serverless-database-using-faunadb-and-netlify-functions/  
+https://github.com/netlify/netlify-faunadb-example  
+https://www.digitalocean.com/community/tutorials/test-a-node-restful-api-with-mocha-and-chai  
 ...and more...
 
