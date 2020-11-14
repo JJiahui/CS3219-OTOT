@@ -68,7 +68,7 @@ exports.update = function (req, res) {
 };
 // Handle delete task
 exports.delete = function (req, res) {
-    Task.remove({
+    Task.deleteOne({
         _id: req.params.task_id
     }, function (err, task) {
             if (err) {

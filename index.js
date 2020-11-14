@@ -1,5 +1,6 @@
+const path = require('path');
 // Import express
-let express = require('express')// Initialize the app
+let express = require('express');// Initialize the app
 // Import Body parser
 let bodyParser = require('body-parser');
 // Import Mongoose
@@ -18,10 +19,15 @@ app.use('/api', apiRoutes)
 
 // Connect to Mongoose and set connection variable
 // Deprecated: mongoose.connect('mongodb://localhost/resthub');
-mongoose.connect('mongodb://localhost/taskB', { useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/taskB', { useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 if(!db) { console.log("Error connecting db"); }
 else { console.log("Db connected successfully"); }
+
+if (process.env.NODE_ENV == "production") {
+   // Serve static files from frontend
+   app.use(express.static(path.join(__dirname, 'frontend/task/dist')))
+}
 
 // Setup server port
 var port = process.env.PORT || 9090;
