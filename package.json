@@ -4,7 +4,6 @@
   "description": "Task B for CS3219 OTOT Assignment",
   "main": "index.js",
   "scripts": {
-    "heroku-postbuild": "cd frontend/task && npm install && npm run build",
     "start": "node index.js",
     "test": "mocha --exit"
   },
