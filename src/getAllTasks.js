@@ -18,6 +18,7 @@ exports.handler = async (event, context) => {
       });
       // then query the refs.
       return client.query(getAllItemsDataQuery).then(ret => {
+        console.log("here");
         // wellformedData includes customers id in the response.
         const wellformedData = ret.map(malformedResponse => {
           return {

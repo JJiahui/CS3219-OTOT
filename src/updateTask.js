@@ -10,6 +10,7 @@ const client = new faunadb.Client({
 /* export our lambda function as named "handler" export */
 exports.handler = async (event, context) => {
   /* parse the string body into a useable JS object */
+  console.log(event.body);
   const data = JSON.parse(event.body);
   console.log('Function `updateTask` invoked', data);
   const item = {
@@ -27,7 +28,7 @@ exports.handler = async (event, context) => {
       };
       return {
         statusCode: 200,
-        body: JSON.stringify(response)
+        body: JSON.stringify(res)
       };
     })
     .catch(error => {
