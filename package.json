@@ -4,7 +4,6 @@
   "description": "Task B for CS3219 OTOT Assignment",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
     "test": "mocha --exit --timeout 5000",
     "serve": "netlify-lambda serve ./src",
     "build": "netlify-lambda build ./src"
@@ -15,6 +14,7 @@
     "axios": "^0.21.0",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
+    "encoding": "^0.1.13",
     "express": "^4.17.1",
     "faunadb": "^3.0.1",
     "mongoose": "^5.10.11",
