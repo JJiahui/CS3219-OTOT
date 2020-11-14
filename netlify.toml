@@ -4,3 +4,4 @@
 
 [build]
     functions = "lambda"
+    publish = "frontend/task/dist"
