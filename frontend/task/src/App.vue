@@ -74,11 +74,7 @@ export default {
     },
   },
   beforeCreate() {
-      if (process.env.VUE_APP_SERVERLESS && process.env.VUE_APP_SERVERLESS == "true") {
-        this.apiUrl = "/.netlify/functions/tasks/";
-      } else {
-        this.apiUrl = "/api/tasks/";
-      }
+      this.apiUrl = "/.netlify/functions/tasks/";
       axios.get(this.apiUrl)
           .then(response => {
             console.log("Got tasks!");
