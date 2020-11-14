@@ -10,11 +10,13 @@ const client = new faunadb.Client({
   secret: process.env.FAUNADB_SERVER_SECRET
 });
 
+const tasks = require("../src/tasks");
 
 //Require the dev-dependencies
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-let server = "http://localhost:9000";
+let server = "https://upbeat-franklin-284d05.netlify.app";
+// let server = "http://localhost:9000";
 let should = chai.should();
 
 chai.use(chaiHttp);
@@ -39,20 +41,23 @@ describe('Tasks', () => {
   */
   describe('/GET tasks', () => {
       it('this should GET all the tasks', (done) => {
-        chai.request(server)
-            .get("/.netlify/functions/tasks")
-            .end((err, res) => {
+        let event = {
+            httpMethod: "GET",
+            path: "/.netlify/functions/tasks/"
+        };
+        let context = {};
+        tasks.handler(event, context).then(res => {
                   res.should.have.status(200);
-                  res.should.have.property('text');
-                  res.text.should.be.a('string');
-                  const body = JSON.parse(res.text);
+                  res.should.have.property('body');
+                  res.body.should.be.a('string');
+                  const body = JSON.parse(res.body);
                   body.should.have.property('status').eql("success");
                   body.should.have.property('message').eql("Tasks retrieved successfully");
                   body.should.have.property('data');
                   body.data.should.be.a('array');
                   body.data.length.should.be.eql(0);
               done();
-            });
+        });
       });
   });
 
@@ -66,16 +71,19 @@ describe('Tasks', () => {
   describe('/POST task', () => {
       it('it should not POST a task without a title field', (done) => {
         let task = {};
-        chai.request(server)
-            .post("/.netlify/functions/tasks")
-            .send(task)
-            .end((err, res) => {
+        let event = {
+            httpMethod: "POST",
+            path: "/.netlify/functions/tasks/",
+            body: JSON.stringify(task)
+        };
+        let context = {};
+        tasks.handler(event, context).then(res => {
                   res.should.have.status(400);
-                  res.should.have.property('text');
-                  res.text.should.be.a('string');
-                  res.text.should.eql("task validation failed: title: Path `title` is required.");
+                  res.should.have.property('body');
+                  res.body.should.be.a('string');
+                  res.body.should.eql("task validation failed: title: Path `title` is required.");
               done();
-            });
+        });
       });
 
 
@@ -84,14 +92,17 @@ describe('Tasks', () => {
             title: "tidy room",
             description: "1. Mop floor 2. Clear desk 3. Organize books"
         };
-        chai.request(server)
-            .post("/.netlify/functions/tasks")
-            .send(task)
-            .end((err, res) => {
+        let event = {
+            httpMethod: "POST",
+            path: "/.netlify/functions/tasks/",
+            body: JSON.stringify(task)
+        };
+        let context = {};
+        tasks.handler(event, context).then(res => {
                   res.should.have.status(200);
-                  res.should.have.property('text');
-                  res.text.should.be.a('string');
-                  const body = JSON.parse(res.text);
+                  res.should.have.property('body');
+                  res.body.should.be.a('string');
+                  const body = JSON.parse(res.body);
                   body.should.have.property('message').eql("New task added");
                   body.should.have.property('data');
                   body.data.should.have.property('title');
@@ -118,13 +129,16 @@ describe('Tasks', () => {
             client
                 .query(q.Create(q.Ref('classes/tasks'), item))
                 .then(response => {
-                    chai.request(server)
-                        .get('/.netlify/functions/tasks/' + response.ref.id)
-                        .end((err, res) => {
+                    let event = {
+                        httpMethod: "GET",
+                        path: "/.netlify/functions/tasks/" + response.ref.id,
+                    };
+                    let context = {};
+                    tasks.handler(event, context).then(res => {
                                 res.should.have.status(200);
-                                res.should.have.property('text');
-                                res.text.should.be.a('string');
-                                const body = JSON.parse(res.text);
+                                res.should.have.property('body');
+                                res.body.should.be.a('string');
+                                const body = JSON.parse(res.body);
                                 body.should.have.property('message').eql("Task details loading..");
                                 body.should.have.property('data');
                                 body.data.should.have.property('title').eql("OTOT assignment");
@@ -143,7 +157,7 @@ describe('Tasks', () => {
   */
   describe('/PUT/:id task', () => {
       it('it should UPDATE a task given the id', (done) => {
-            let _task = {title: "Buy groceries", description: "milk, eggs, apples"};
+            let _task = {title: "Buy groceries", description: "milk, eggs, apples", is_done: false};
             const item = {
                 data: _task
             };
@@ -151,14 +165,17 @@ describe('Tasks', () => {
             client
                 .query(q.Create(q.Ref('classes/tasks'), item))
                 .then(response => {
-                    chai.request(server)
-                        .put('/.netlify/functions/tasks/' + response.ref.id)
-                        .send({is_done: true})
-                        .end((err, res) => {
+                    let event = {
+                        httpMethod: "PUT",
+                        path: "/.netlify/functions/tasks/" + response.ref.id,
+                        body: JSON.stringify({is_done: true})
+                    };
+                    let context = {};
+                    tasks.handler(event, context).then(res => {
                       res.should.have.status(200);
-                      res.should.have.property('text');
-                      res.text.should.be.a('string');
-                      const body = JSON.parse(res.text);
+                      res.should.have.property('body');
+                      res.body.should.be.a('string');
+                      const body = JSON.parse(res.body);
                       body.should.have.property('message').eql("Task Info updated");
                       body.should.have.property('data');
                       body.data.should.have.property('is_done').eql(true);
@@ -182,13 +199,16 @@ describe('Tasks', () => {
             client
                 .query(q.Create(q.Ref('classes/tasks'), item))
                 .then(response => {
-                    chai.request(server)
-                        .delete('/.netlify/functions/tasks/' + response.ref.id)
-                        .end((err, res) => {
+                    let event = {
+                        httpMethod: "DELETE",
+                        path: "/.netlify/functions/tasks/" + response.ref.id,
+                    };
+                    let context = {};
+                    tasks.handler(event, context).then(res => {
                       res.should.have.status(200);
-                      res.should.have.property('text');
-                      res.text.should.be.a('string');
-                      const body = JSON.parse(res.text);
+                      res.should.have.property('body');
+                      res.body.should.be.a('string');
+                      const body = JSON.parse(res.body);
                       body.should.have.property('message').eql('Task deleted');
                       body.should.have.property('status').eql('success');
                   done();
