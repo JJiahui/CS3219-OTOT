@@ -18,22 +18,12 @@
 import TasksView from './components/TasksView.vue'
 import AddTask from './components/AddTask.vue'
 import axios from 'axios';
-require('dotenv').config();
 
 export default {
   name: 'App',
   components: {
     // HelloWorld
     TasksView, AddTask
-  },
-  computed: {
-    apiUrl () {
-      if (process.env.SERVERLESS && process.env.SERVERLESS == "true") {
-        return "/.netlify/functions/tasks/";
-      } else {
-        return "/api/tasks/";
-      }
-    }
   },
   methods: {
     async addTask(newTask) {
@@ -84,6 +74,11 @@ export default {
     },
   },
   beforeCreate() {
+      if (process.env.VUE_APP_SERVERLESS && process.env.VUE_APP_SERVERLESS == "true") {
+        this.apiUrl = "/.netlify/functions/tasks/";
+      } else {
+        this.apiUrl = "/api/tasks/";
+      }
       axios.get(this.apiUrl)
           .then(response => {
             console.log("Got tasks!");
