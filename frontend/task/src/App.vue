@@ -53,7 +53,7 @@ export default {
           });
     },
     async deleteTask(taskId) {
-      this.allTasks = this.allTasks.filter(task => task._id !== taskId);
+      this.allTasks = this.allTasks.filter(task => task.id !== taskId);
       axios.delete(this.apiUrl + taskId)
           .then(response => {
             console.log(response.data.message);
@@ -68,7 +68,7 @@ export default {
           });
     },
     async doneTask(task) {
-      axios.put(this.apiUrl + task._id, {is_done: task.is_done}) 
+      axios.put(this.apiUrl + task.id, {is_done: task.is_done}) 
           .then(response => {
             console.log("Updated task!");
             console.log(response.data.data);

@@ -1,8 +1,8 @@
 <template>
   <div>
         <Task v-bind:task="task" 
-          v-for="task in allTasks" v-bind:key="task._id"
-          v-on:delete-task="$emit('delete-task', task._id)"
+          v-for="task in allTasks" v-bind:key="task.id"
+          v-on:delete-task="$emit('delete-task', task.id)"
           v-on:done-task="$emit('done-task', task)"
         />
   </div>

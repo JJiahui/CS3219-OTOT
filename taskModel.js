@@ -14,6 +14,13 @@ var taskSchema = mongoose.Schema({
         default: Date.now
     },
 });
+taskSchema.virtual('id').get(function(){
+    return this._id.toHexString();
+});
+// Ensure virtual fields are serialised.
+taskSchema.set('toJSON', {
+    virtuals: true
+});
 
 // Export Task model
 var Task = module.exports = mongoose.model('task', taskSchema);
