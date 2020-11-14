@@ -6,4 +6,5 @@ services:
   - mongodb
 
 before_script:
-  - sleep 15
+  - npm run serve &
+  - sleep 60
