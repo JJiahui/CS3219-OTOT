@@ -104,7 +104,7 @@ describe('Tasks', () => {
                   res.body.data.should.have.property('title').eql("OTOT assignment");
                   res.body.data.should.have.property('description').eql("B1, B2, B3, B4");
                   res.body.data.should.have.property('is_done').eql(false);
-                  res.body.data.should.have.property('_id').eql(task.id);
+                  res.body.data.should.have.property('id').eql(task.id);
               done();
             });
           });

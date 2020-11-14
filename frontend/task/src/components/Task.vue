@@ -4,7 +4,7 @@
         <div slot="header" class="clearfix">
           <span>{{ task.title }}</span>
           <el-button style="float: right; padding: 10px" type="danger" icon="el-icon-delete" circle
-              @click="$emit('delete-task', task._id)"></el-button>
+              @click="$emit('delete-task', task.id)"></el-button>
           <el-checkbox style="float: right; padding: 10px" v-model="is_done"></el-checkbox>
         </div>
         Description:
