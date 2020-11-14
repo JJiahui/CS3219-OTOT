@@ -18,6 +18,7 @@
 import TasksView from './components/TasksView.vue'
 import AddTask from './components/AddTask.vue'
 import axios from 'axios';
+require('dotenv').config();
 
 export default {
   name: 'App',
@@ -25,9 +26,18 @@ export default {
     // HelloWorld
     TasksView, AddTask
   },
+  computed: {
+    apiUrl () {
+      if (process.env.SERVERLESS && process.env.SERVERLESS == "true") {
+        return "/.netlify/functions/tasks/";
+      } else {
+        return "/api/tasks/";
+      }
+    }
+  },
   methods: {
     async addTask(newTask) {
-      axios.post("/api/tasks/", newTask)
+      axios.post(this.apiUrl, newTask)
           .then(response => {
             console.log("Added task!");
             console.log(response.data.data);
@@ -44,7 +54,7 @@ export default {
     },
     async deleteTask(taskId) {
       this.allTasks = this.allTasks.filter(task => task._id !== taskId);
-      axios.delete("/api/tasks/" + taskId)
+      axios.delete(this.apiUrl + taskId)
           .then(response => {
             console.log(response.data.message);
             this.$message({
@@ -58,7 +68,7 @@ export default {
           });
     },
     async doneTask(task) {
-      axios.put("/api/tasks/" + task._id, {is_done: task.is_done}) 
+      axios.put(this.apiUrl + task._id, {is_done: task.is_done}) 
           .then(response => {
             console.log("Updated task!");
             console.log(response.data.data);
@@ -74,7 +84,7 @@ export default {
     },
   },
   beforeCreate() {
-      axios.get('/api/tasks')
+      axios.get(this.apiUrl)
           .then(response => {
             console.log("Got tasks!");
             console.log(response.data.data);
